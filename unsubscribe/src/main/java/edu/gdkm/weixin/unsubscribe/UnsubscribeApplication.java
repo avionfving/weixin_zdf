@@ -1,4 +1,4 @@
-package edu.gdkm.weixin;
+package edu.gdkm.weixin.unsubscribe;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +22,12 @@ import edu.gdkm.commons.processors.EventMessageProcessor;
 @ComponentScan("edu.gdkm")
 @EnableJpaRepositories("edu.gdkm")
 @EntityScan("edu.gdkm")
-public class SubscribeApplication implements //
-
+public class UnsubscribeApplication implements //
 		EventListenerConfig, //
 		// 得到Spring的容器
 		ApplicationContextAware {
 
-	private static final Logger LOG = LoggerFactory.getLogger(SubscribeApplication.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UnsubscribeApplication.class);
 
 	private ApplicationContext ctx;// Spring容器
 
@@ -37,7 +36,6 @@ public class SubscribeApplication implements //
 		ctx = applicationContext;
 	}
 
-	@Override
 	public void handle(EventInMessage msg) {
 		// 1.当前类实现ApplicationContextAware接口，用于获得Spring容器
 		// 2.把Event全部转换为小写，并且拼接上MessageProcessor作为ID
@@ -63,8 +61,8 @@ public class SubscribeApplication implements //
 	}
 
 	public static void main(String[] args) throws InterruptedException {
-		SpringApplication.run(SubscribeApplication.class, args);
-		System.out.println("Subscribe Spring Boot应用启动成功");
+		SpringApplication.run(UnsubscribeApplication.class, args);
+		System.out.println("Unsubscribe Spring Boot应用启动成功");
 		// 让程序进入等待、不要退出
 //		CountDownLatch countDownLatch = new CountDownLatch(1);
 //		countDownLatch.await();

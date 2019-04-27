@@ -1,15 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>edu.gdkm</groupId>
-		<artifactId>weixin</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-	<artifactId>subscribe</artifactId>
-
-	<dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>edu.gdkm</groupId>
+    <artifactId>weixin</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>unsubscribe</artifactId>
+  
+  <dependencies>
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -107,10 +105,11 @@
 					<!-- 并且可以使用 mvn spring-boot:stop 停止程序 -->
 					<fork>true</fork>
 					<!-- 每个fork出来的进程都会需要一个JMX端口，不能重复 -->
-					<jmxPort>9952</jmxPort>
+					<jmxPort>9953</jmxPort>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
+  
+  
 </project>

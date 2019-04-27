@@ -31,5 +31,6 @@
 		<module>weixins</module>
 		<module>subscribe</module>
 		<module>commons</module>
+		<module>unsubscribe</module>
 	</modules>
 </project>
