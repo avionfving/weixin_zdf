@@ -16,6 +16,7 @@ import org.springframework.data.redis.listener.Topic;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 import edu.gdkm.commons.domain.InMessage;
+import edu.gdkm.commons.domain.ResponseToken;
 import edu.gdkm.commons.domain.event.EventInMessage;
 import edu.gdkm.commons.service.JsonRedisSerializer;
 
@@ -50,67 +51,76 @@ public interface EventListenerConfig extends
 			stopMonitor.notify();
 		}
 	}
-	
-	
-	
-	// 相当于Spring的XML配置方式中的<bean>元素
-		@Bean
-		public default RedisTemplate<String, InMessage> inMessageTemplate(//
-				@Autowired RedisConnectionFactory redisConnectionFactory) {
-			RedisTemplate<String, InMessage> template = new RedisTemplate<>();
-			template.setConnectionFactory(redisConnectionFactory);
 
-			// 设置一个序列化程序，就可以非常方便自动序列化！
-			// Redis是键值对方式存储数据的，所以其实KeySerializer是把键序列化成可以传输的数据。
-			// 由于泛型的时候已经确定，Key其实是String，所以可以使用系统默认的
+	// 相当于Spring的XML配置方式中的<bean>元素
+	@Bean
+	public default RedisTemplate<String, InMessage> inMessageTemplate(//
+			@Autowired RedisConnectionFactory redisConnectionFactory) {
+		RedisTemplate<String, InMessage> template = new RedisTemplate<>();
+		template.setConnectionFactory(redisConnectionFactory);
+
+		// 设置一个序列化程序，就可以非常方便自动序列化！
+		// Redis是键值对方式存储数据的，所以其实KeySerializer是把键序列化成可以传输的数据。
+		// 由于泛型的时候已经确定，Key其实是String，所以可以使用系统默认的
 //			template.setKeySerializer(new StringRedisSerializer());
 
-			// 由于不确定是哪个类型，InMessage只是一个父类，它有许多不同的子类。
-			// 因此扩展Jackson2JsonRedisSerializer变得极其重要：重写方法、不要构造参数
-			template.setValueSerializer(new JsonRedisSerializer());
+		// 由于不确定是哪个类型，InMessage只是一个父类，它有许多不同的子类。
+		// 因此扩展Jackson2JsonRedisSerializer变得极其重要：重写方法、不要构造参数
+		template.setValueSerializer(new JsonRedisSerializer());
 //			template.setDefaultSerializer(new JsonRedisSerializer());
-			return template;
-		}
+		return template;
+	}
 
-		@Bean
-		public default MessageListenerAdapter messageListener(@Autowired RedisTemplate<String, InMessage> inMessageTemplate) {
-			MessageListenerAdapter adapter = new MessageListenerAdapter();
-			// 共用模板里面的序列化程序
-			adapter.setSerializer(inMessageTemplate.getValueSerializer());
+	@Bean
+	public default RedisTemplate<String, ResponseToken> tokenRedisTemplate( //
+			@Autowired RedisConnectionFactory redisConnectionFactory) {
+		RedisTemplate<String, ResponseToken> template = new RedisTemplate<>();
+		template.setConnectionFactory(redisConnectionFactory);
+		template.setValueSerializer(new JsonRedisSerializer());
+		return template;
+	}
 
-			// 设置消息处理程序的代理对象
-			adapter.setDelegate(this);
-			// 设置代理对象里面哪个方法用于处理消息，设置方法名
-			adapter.setDefaultListenerMethod("handle");
-			return adapter;
-		}
+	@Bean
+	public default MessageListenerAdapter messageListener(
+			@Autowired RedisTemplate<String, InMessage> inMessageTemplate) {
+		MessageListenerAdapter adapter = new MessageListenerAdapter();
+		// 共用模板里面的序列化程序
+		adapter.setSerializer(inMessageTemplate.getValueSerializer());
 
-		@Bean
-		public default RedisMessageListenerContainer messageListenerContainer(//
-				@Autowired RedisConnectionFactory redisConnectionFactory, //
-				@Autowired MessageListener l) {
-			RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-			container.setConnectionFactory(redisConnectionFactory);
+		// 设置消息处理程序的代理对象
+		adapter.setDelegate(this);
+		// 设置代理对象里面哪个方法用于处理消息，设置方法名
+		adapter.setDefaultListenerMethod("handle");
+		return adapter;
+	}
 
-			// 给容器增加监听器
+	@Bean
+	public default RedisMessageListenerContainer messageListenerContainer(//
+			@Autowired RedisConnectionFactory redisConnectionFactory, //
+			@Autowired MessageListener l) {
+		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+		container.setConnectionFactory(redisConnectionFactory);
+
+		// 给容器增加监听器
 //			MessageListener l = new MessageListener() {
-	//
+		//
 //				@Override
 //				public void onMessage(Message message, byte[] pattern) {
-	//
+		//
 //				}
 //			};
-			
-			// 可以监听多个通道的消息
-			List<Topic> topics = new ArrayList<>();
 
-			// 支持*通配符，监听多个通道
+		// 可以监听多个通道的消息
+		List<Topic> topics = new ArrayList<>();
+
+		// 支持*通配符，监听多个通道
 //			topics.add(new PatternTopic("zdf_*"));
-			// 监听具体某个通道
-			topics.add(new ChannelTopic("zdf_event"));
-			container.addMessageListener(l, topics);
-			return container;
-		}
-		public  void handle(EventInMessage msg);
-		
+		// 监听具体某个通道
+		topics.add(new ChannelTopic("zdf_event"));
+		container.addMessageListener(l, topics);
+		return container;
+	}
+
+	public void handle(EventInMessage msg);
+
 }

@@ -1,4 +1,4 @@
-package edu.gdkm.weixin.service;
+package edu.gdkm.commons.service;
 
 public interface TokenManager {
 
