@@ -52,7 +52,7 @@ public class WeixinProxy {
 
 			String body = response.body();
 
-			LOG.trace("调用远程接口返回的内容 : \n{}", body);
+			LOG.trace("调用远程接口返回的内容为 : \n{}", body);
 
 			if (body.contains("errcode")) {
 				LOG.error("调用远程接口出现问题：" + body);
@@ -75,7 +75,7 @@ public class WeixinProxy {
 			String json = this.objectMapper.writeValueAsString(msg);
 
 			// 发送消息
-			String url = "https://api.weixin.qq.com/customservice/kfaccount/add?access_token" + token;
+			String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + token;
 			HttpRequest request = HttpRequest.newBuilder(URI.create(url))//
 					.POST(BodyPublishers.ofString(json, Charset.forName("UTF-8")))// 以POST方式请求
 					.build();

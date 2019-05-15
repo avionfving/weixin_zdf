@@ -39,7 +39,7 @@ public class TokenManagerImpl implements TokenManager {
 	public String getToken(String account) {
 		BoundValueOperations<String, ResponseToken> ops = tokenRedisTemplate.boundValueOps("weixin_access_token");
 		ResponseToken token = ops.get();
-		LOG.trace("获取令牌，结果: {}", token);
+		LOG.trace("获取令牌，结果:  {	}", token);
 		if (token == null) {
 			// 增加事务锁
 			for (int i = 0; i < 10; i++) {
@@ -47,9 +47,9 @@ public class TokenManagerImpl implements TokenManager {
 						// 如果key不存在（Absent）就设置一个键值对到数据库
 						// 如果设置成功返回true，否则返回false
 						.setIfAbsent("weixin_access_token_lock", new ResponseToken());
-				LOG.trace("没有令牌，增加事务锁，结果:{ }", locked);
+				LOG.trace("没有令牌，增加事务锁，结果:{	}", locked);
 				if (locked == true) {
-					// 增加事务锁
+					// 增加事务锁成功了
 					try {
 						// 再次检查token是否在数据库里面
 						token = ops.get();
@@ -63,10 +63,10 @@ public class TokenManagerImpl implements TokenManager {
 							// 设置令牌的过期时间,减去60表示提前一分钟去更新令牌
 							ops.expire(token.getExpiresIn() - 60, TimeUnit.SECONDS);
 						} else {
-							LOG.trace("再次检查令牌，已经有令牌在Redis里面，直接使用");
+							LOG.trace("再次检查令牌，已经有令牌在Redis里面，可以直接使用");
 						}
 
-						// 不需要继续循环
+						// 不需要继续循环，跳出循环
 						break;
 					} finally {
 						LOG.trace("删除令牌事务锁");
@@ -82,10 +82,11 @@ public class TokenManagerImpl implements TokenManager {
 					// 增加事务锁不成功，要等待1分钟在重试
 					synchronized (this) {
 						try {
-							LOG.trace("其他线程锁定了令牌，无法获得锁，等待。。。");
+							LOG.trace("其他线程锁定了令牌，无法获得事务锁锁，请等待。。。。。。");
 							this.wait(1000 * 60);
 						} catch (InterruptedException e) {
 							LOG.error("等待获取分布式的事务锁出现问题：" + e.getLocalizedMessage(), e);
+							// 获取出问题直接跳出循环
 							break;
 						}
 					}

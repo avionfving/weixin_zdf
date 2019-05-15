@@ -63,8 +63,5 @@ public class UnsubscribeApplication implements //
 	public static void main(String[] args) throws InterruptedException {
 		SpringApplication.run(UnsubscribeApplication.class, args);
 		System.out.println("Unsubscribe Spring Boot应用启动成功");
-		// 让程序进入等待、不要退出
-//		CountDownLatch countDownLatch = new CountDownLatch(1);
-//		countDownLatch.await();
 	}
 }
