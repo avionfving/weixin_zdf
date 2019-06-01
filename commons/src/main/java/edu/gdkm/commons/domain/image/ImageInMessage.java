@@ -10,23 +10,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.gdkm.commons.domain.InMessage;
 
 @XmlAccessorType(XmlAccessType.FIELD) // JAXB从字段获取配置信息
-@XmlRootElement(name="xml") // JAXB读取XML时根元素名称
+@XmlRootElement(name = "xml") // JAXB读取XML时根元素名称
 public class ImageInMessage extends InMessage {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@XmlElement(name="PicUrl")
+	@XmlElement(name = "PicUrl")
 	@JsonProperty("PicUrl")
 	private String url;
-	
-	@XmlElement(name="MediaId")
+
+	@XmlElement(name = "MediaId")
 	@JsonProperty("MediaId")
 	private String mediaId;
-	
+
 	public ImageInMessage() {
-		// TODO Auto-generated constructor stub
 		super.setMsgType("image");
 	}
 

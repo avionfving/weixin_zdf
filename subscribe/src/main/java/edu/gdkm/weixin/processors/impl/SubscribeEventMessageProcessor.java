@@ -4,7 +4,7 @@ import edu.gdkm.commons.domain.User;
 import edu.gdkm.commons.domain.event.EventInMessage;
 import edu.gdkm.commons.processors.EventMessageProcessor;
 import edu.gdkm.commons.repository.UserRepository;
-import edu.gdkm.weixin.service.WeixinProxy;
+import edu.gdkm.commons.service.WeixinProxy;
 
 import java.util.Date;
 
@@ -47,11 +47,11 @@ public class SubscribeEventMessageProcessor implements EventMessageProcessor {
 			if (user != null) {
 				// 原来关注过
 				wxUser.setId(user.getId());
+				wxUser.setSubTime(user.getSubTime());
 				wxUser.setUnsubTime(null);
 			}
-			wxUser.setSubTime(user.getSubTime());
 			wxUser.setStatus(User.Status.IS_SUBSCRIBE);
-//			user.setSubTime(new Date());
+			wxUser.setSubTime(new Date());
 
 			// 如果有id的值，会自动update；没有id的值会insert
 			this.userRepository.save(wxUser);

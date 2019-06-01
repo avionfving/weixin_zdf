@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.gdkm.commons.domain.InMessage;
 
 @XmlAccessorType(XmlAccessType.FIELD) // JAXB从字段获取配置信息
-@XmlRootElement(name="xml") // JAXB读取XML时根元素名称
+@XmlRootElement(name = "xml") // JAXB读取XML时根元素名称
 public class LinkInMessage extends InMessage {
 
 	/**
@@ -18,24 +18,22 @@ public class LinkInMessage extends InMessage {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@XmlElement(name="Title")
+	@XmlElement(name = "Title")
 	@JsonProperty("Title")
 	private String title;
-	
-	@XmlElement(name="Description")
+
+	@XmlElement(name = "Description")
 	@JsonProperty("Description")
 	private String description;
-	
-	@XmlElement(name="Url")
+
+	@XmlElement(name = "Url")
 	@JsonProperty("Url")
 	private String url;
-	
+
 	public LinkInMessage() {
-		// TODO Auto-generated constructor stub
 		super.setMsgType("link");
 	}
 
-	
 	public String getTitle() {
 		return title;
 	}
@@ -59,7 +57,6 @@ public class LinkInMessage extends InMessage {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
 
 	@Override
 	public String toString() {
