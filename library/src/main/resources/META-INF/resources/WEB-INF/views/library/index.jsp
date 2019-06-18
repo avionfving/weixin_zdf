@@ -12,15 +12,15 @@
 <body>
 	<form action="" method="get">
 		<%-- ${} 这是EL表达式 --%>
-		<%-- 大括号里面可以写各种表达式，包括数学运算 --%>  
+		<%-- 大括号里面可以写各种表达式，包括数学运算 --%>
 		<%-- param是EL表达式的内置对象，表示请求参数 --%>
 		<%-- param.keyword 表示获取请求参数里面名为keyword的参数的值 --%>
 		<input name="keyword" value="${param.keyword }" placeholder="关键字" />
 		<button>搜索</button>
 	</form>
-	
-	
-	
+
+
+
 	<%-- 循环生成图书的列表 --%>
 	<%-- 使用JSTL的forEach标签实现循环输出 --%>
 	<%-- items可以处理任意数组、集合，甚至Map --%>
@@ -30,11 +30,11 @@
 			<div class="col_1">
 				<img src="/zdf/library/images/${book.image }" />
 			</div>
-				<span class="col-10 name">${book.name }</span>
-				<span class="col-1" style="text-align: right;">
-					<span class="button">+</span>
-				</span>
-			</div>
+			<span class="col-10 name">${book.name }</span> <span class="col-1"
+				style="text-align: right;"> <a
+				href="/zdf/library/debit?id=${book.id }" class="button">+</a>
+			</span>
+		</div>
 	</c:forEach>
 
 
@@ -48,7 +48,7 @@
 		<c:if test="${page.number <= 0 }">
 			<a>上一页</a>
 		</c:if>
-		
+
 		<%-- 下一页 --%>
 		<c:choose>
 			<%-- 因为页码从0开始，但是totalPages是总页数，从1开始。 --%>
@@ -59,9 +59,9 @@
 				<a href="?pageNumber=${page.number + 1 }&keyword=${param.keyword}">下一页</a>
 			</c:otherwise>
 		</c:choose>
-		
-		
-		
+
+
+
 	</div>
 </body>
 </html>
