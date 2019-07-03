@@ -7,15 +7,27 @@
 <head>
 <meta charset="UTF-8">
 <title>图书馆首页</title>
-<link href="/zdf/library/css/main.css" rel="stylesheet">
+<link href="/zdf/library/css/lis.css" rel="stylesheet">
 </head>
 <body>
+	
+	<%-- <a href='<c:url value="http://127.0.0.1:8190/zdf/library/" />'>继续选书</a> --%>
+	<input type="button" class="gg" onclick="window.location.href='http://127.0.0.1:8190/zdf/library/'" value="继续选书" />
+	<h1 class="hh">已选图书</h1>
 	<c:forEach items="${debitList.books }" var="book">
-		<div>
-			${book.name }
-			<%-- 此处把路径的一部分作为参数来使用，符合REST规范 --%>
-			<a href="/zdf/library/debit/remove/${book.id }">删除</a>
-		</div>
+		<table>
+			<tr>
+				<td class="t">
+					${book.name }
+				</td>
+				<td>
+					<%-- 此处把路径的一部分作为参数来使用，符合REST规范 --%>
+					<a class="nu" href="/zdf/library/debit/remove/${book.id }">删除</a>
+				</td>
+				
+			</tr>
+		</table>
 	</c:forEach>
+	
 </body>
 </html>

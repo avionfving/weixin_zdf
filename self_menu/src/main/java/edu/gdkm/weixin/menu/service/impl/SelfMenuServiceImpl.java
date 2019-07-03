@@ -19,11 +19,11 @@ import edu.gdkm.weixin.menu.domain.SelfMenu;
 import edu.gdkm.weixin.menu.repository.SelfMenuRepository;
 import edu.gdkm.weixin.menu.service.SelfMenuService;
 
-
 @Service
 public class SelfMenuServiceImpl implements SelfMenuService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SelfMenuServiceImpl.class);
+	
 	@Autowired
 	private SelfMenuRepository menuRepository;
 
@@ -109,9 +109,8 @@ public class SelfMenuServiceImpl implements SelfMenuService {
 				|| m.getType().equals("pic_photo_or_album") // 微信相册或拍照
 				|| m.getType().equals("pic_sysphoto") // 拍照
 				|| m.getType().equals("scancode_push") // 扫码
-				|| m.getType().equals("scancode_waitmsg")  // 扫码
-		) //
-				&& !StringUtils.isEmpty(m.getKey())) {
+				|| m.getType().equals("scancode_waitmsg") // 扫码
+		) && !StringUtils.isEmpty(m.getKey())) {
 			subMenu.put("key", m.getKey());
 		} else {
 			m.setKey(null);

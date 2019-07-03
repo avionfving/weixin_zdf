@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>图书馆首页</title>
-<link href="/zdf/library/css/main.css" rel="stylesheet">
+<link href="/zdf/library/css/bookIndex.css" rel="stylesheet">
 </head>
 <body>
 	<form action="" method="get">
@@ -15,32 +15,35 @@
 		<%-- 大括号里面可以写各种表达式，包括数学运算 --%>
 		<%-- param是EL表达式的内置对象，表示请求参数 --%>
 		<%-- param.keyword 表示获取请求参数里面名为keyword的参数的值 --%>
-		<input name="keyword" value="${param.keyword }" placeholder="关键字" />
-		<button>搜索</button>
+		<input class="sousuo" name="keyword" value="${param.keyword }"
+			placeholder="请输入关键字" />
+		<button class="sbtn">查&ensp;找</button>
 	</form>
-
-
 
 	<%-- 循环生成图书的列表 --%>
 	<%-- 使用JSTL的forEach标签实现循环输出 --%>
 	<%-- items可以处理任意数组、集合，甚至Map --%>
 	<%-- ${page.content }是EL表达式，也是JSP里面非常常用的一种语法。 --%>
 	<c:forEach items="${page.content }" var="book">
-		<div class="book">
-			<div class="col_1">
-				<img src="/zdf/library/images/${book.image }" />
-			</div>
-			<span class="col-10 name">${book.name }</span> <span class="col-1"
-				style="text-align: right;"> <a
-				href="/zdf/library/debit?id=${book.id }" class="button">+</a>
-			</span>
-		</div>
+			<table>
+				<tr>
+					<td class="t1">
+						<img class="immg" src="/zdf/library/images/${book.image }" style="width: 200px;height:200px;border: 1px;" />
+					</td>
+					<td class="t2">
+						<span class="name">${book.name }</span>
+					</td>
+					<td class="tkong">
+					</td>
+					<td class="t3">
+						<a class="btn" href="/zdf/library/debit?id=${book.id }">+</a>
+					</td>
+				</tr>
+			</table>
 	</c:forEach>
 
-
-
 	<%-- 分页按钮 --%>
-	<div>
+	<div class="fenye">
 		<%-- 上一页 --%>
 		<c:if test="${page.number > 0 }">
 			<a href="?pageNumber=${page.number - 1 }&keyword=${param.keyword}">上一页</a>
@@ -48,6 +51,8 @@
 		<c:if test="${page.number <= 0 }">
 			<a>上一页</a>
 		</c:if>
+
+		<span>&emsp;&emsp;&emsp;</span>
 
 		<%-- 下一页 --%>
 		<c:choose>
@@ -59,9 +64,6 @@
 				<a href="?pageNumber=${page.number + 1 }&keyword=${param.keyword}">下一页</a>
 			</c:otherwise>
 		</c:choose>
-
-
-
 	</div>
 </body>
 </html>
