@@ -12,7 +12,7 @@
 <body>
 	
 	<%-- <a href='<c:url value="http://127.0.0.1:8190/zdf/library/" />'>继续选书</a> --%>
-	<input type="button" class="gg" onclick="window.location.href='http://112.74.56.182/zdf/library/'" value="继续选书" />
+	<input type="button" class="gg" onclick="window.location.href='http://106.12.59.219/zdf/library/'" value="继续选书" />
 	<h1 class="hh">已选图书</h1>
 	<c:forEach items="${debitList.books }" var="book">
 		<table>
